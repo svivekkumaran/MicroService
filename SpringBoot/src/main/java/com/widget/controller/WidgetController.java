@@ -11,6 +11,6 @@ public class WidgetController {
 	public String Widget()
 	{
 		System.out.println("Reached Here");
-		return "welcome.jsp";
+		return "welcome";
 	}
 }

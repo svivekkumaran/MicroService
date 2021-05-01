@@ -7,6 +7,6 @@
 <title>Your Widget is Here</title>
 </head>
 <body>
-	LOB based
+	LOB based Try Without JSP
 </body>
 </html>
