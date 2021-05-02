@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class WidgetController {
 
 	@RequestMapping("/DynamicWidget")
-	public String Widget(HttpServletRequest req)
+	public String Widget(String Sname, HttpSession sess)
 	{
 		System.out.println("Reached Here");
-		System.out.println("Serviice name "+req.getParameter("Sname"));
-		HttpSession sess=req.getSession();
-		sess.setAttribute("Servicename", req.getParameter("Sname"));
+		System.out.println("Serviice name "+Sname);
+		sess.setAttribute("Servicename", Sname);
 		return "welcome";
 	}
 }
