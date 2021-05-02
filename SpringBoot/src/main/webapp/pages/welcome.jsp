@@ -7,6 +7,7 @@
 <title>Your Widget is Here</title>
 </head>
 <body>
-	LOB based GMS Service Name is ${Servicename} 
+	LOB based GMS Service Name is ${WidgetModel.env},
+							 ${WidgetModel.stargate} 
 </body>
 </html>
