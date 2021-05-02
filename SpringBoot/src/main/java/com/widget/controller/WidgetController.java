@@ -8,16 +8,19 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WidgetController {
 
 	@RequestMapping("/DynamicWidget")
-	public String Widget(String Sname, HttpSession sess)
+	public ModelAndView Widget(String Sname)
 	{
 		System.out.println("Reached Here");
+		ModelAndView mv=new ModelAndView();
 		System.out.println("Serviice name "+Sname);
-		sess.setAttribute("Servicename", Sname);
-		return "welcome";
+		mv.setViewName("welcome");
+		mv.addObject("Servicename", Sname);
+		return mv;
 	}
 }
