@@ -7,6 +7,6 @@
 <title>Your Widget is Here</title>
 </head>
 <body>
-	LOB based Try Without JSP
+	LOB based GMS Service Name is ${Servicename} 
 </body>
 </html>
