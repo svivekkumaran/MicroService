@@ -1,0 +1,31 @@
+<configuration>
+	<property name="LOG_FILE"
+		value="/logs/gcti/DgtRedirectWebApp/DgtRedirectWebApp.log" />
+
+	<appender name="rollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<file>${LOG_FILE}</file>
+		<append>true</append>
+		<!-- set immediateFlush to false for much higher logging throughput -->
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level [%file:%line] %msg%n</pattern>
+		</encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>/logs/gcti/DgtRedirectWebApp/DgtRedirectWebApp-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        <maxHistory>20</maxHistory> 
+        <totalSizeCap>1GB</totalSizeCap>
+         <maxFileSize>20MB</maxFileSize>
+    </rollingPolicy>
+	</appender>
+
+	<!-- The possible levels are, in order of precedence: TRACE, DEBUG, INFO, WARN and ERROR. -->
+	<logger name="rollingFileLogger" level="info" additivity="false">
+		<appender-ref ref="rollingFileAppender" />
+	</logger>
+	<root level="info">
+    <appender-ref ref="rollingFileAppender" />
+</root>
+
+</configuration>
