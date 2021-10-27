@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsch-0.1.54.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/apptemplate.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/apptemplate-log4j2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/clusterprotocolappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/comappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commonsappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/configurationprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/connection.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/contactsprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson2-module.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-annotations-2.9.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-core-2.9.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-databind-2.9.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/kvlistbinding.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/kvlists.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/logging.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/managementprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/messagebrokerappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/netty-3.10.6.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/openmediaprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.json.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/outboundprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/protocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/protocolmanagerappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/reportingprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/routingprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/system.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/voiceprotocol.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/warmstandbyappblock.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/webmediaprotocol.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
