@@ -1,0 +1,15 @@
+tail -f omni-secure-message.log
+
+List all env
+ps -ef | grep -i tomcat
+
+ps -ef| grep tomcat
+
+
+
+List 
+$ grep -c "Session created at" cl2-gms-CTC_*
+
+Tomcat restart
+ps -ef | grep tomcat
+bash startup.sh  
