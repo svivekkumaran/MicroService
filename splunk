@@ -1,0 +1,201 @@
+IXN Received and Agent Invite
+"Enterprise_Digital.Email.Entered*" AND "EventAgentInvited" AND  sourcetype=omni:email:interaction
+| rex attr_itx_id\s\[\w+\]\s=\s(?<Ixn>.*)
+| rex attr_event_time\s\[\w+\]\s=\s(?<AgentInviteTime>.*)
+| rex attr_itx_received_at\s\[\w+\]\s=\s(?<ReceivedTime>.*)
+| table Ixn, ReceivedTime , AgentInviteTime
+| sort ReceivedTime auto
+
+IXN Event
+"00009aGSTC2JHM7N" AND NOT (EventPropertiesChanged OR RequestChangeProperties OR EventPartyAdded OR EventPartyRemoved OR EventExternalServiceRequested) sourcetype="omni:email:interaction"
+| rex (?<EventTime>.*)\sTrc
+| rex Distributing\smessage\s\'(?<EventOrMethod>.*)\'\s
+| rex Sending\smessage\s\'(?<EventOrMethod>.*)\'\s
+| rex 'Method'\s\[\w+\]\s=\s(?<EventOrMethod>.*)
+| rex Received\smessage\s\'(?<Request>.*)\'\s
+| rex Sending\sthird\sparty\sserver(?<Request>.*)\'\s
+| rex Received\sfrom(?<Request>.*)\'\s
+| rex attr_itx_queue\s\[\w+\]\s=\s(?<Queue>.*)
+| rex attr_queue\s\[\w+\]\s=\s(?<Queue>.*)
+| rex 'Queue'\s\[\w+\]\s=\s(?<Queue>.*)
+| rex AttributeThisQueue\s\[\w+\]\s=(?<Queue>.*)
+| rex attr_ref_id\s\[\w+\]\s=\s(?<RefID>.*)
+| table EventTime , Request,EventOrMethod,Queue , RefID
+| sort -EventTime
+
+
+Query for UNIT Segment Function
+( 00005aGP1GV5J9X3 OR 00005aGP1GV5M7K4 ) AND "EventInteractionSubmitted" sourcetype="omni:ors:digital" | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | rex 'ENT_Unit'\s\[\w+\]\s=\s(?<ENT_Unit>.*) | rex 'ENT_Segment'\s\[\w+\]\s=\s(?<ENT_Segment>.*) | rex 'ENT_Function'\s\[\w+\]\s=\s(?<ENT_Function>.*)| rex 'ENT_MediaClassNm'\s\[\w+\]\s=\s(?<ENT_MediaClassNm>.*) | dedup IXN | table IXN , ENT_Unit , ENT_Segment , ENT_Function , ENT_MediaClassNm
+	
+Jaycee count the number of times a chat interaction has been placed in IXN queue. Indicator of looping.
+index=cba_omni sourcetype="omni:chat:interaction" RequestPlaceInQueue| rex field=_raw "(?ms)attr_itx_id\s\[str\]\s\=\s\"(?<ixn_id>[^ ]+)\"" | top limit=100 ixn_id
+
+
+Get target Skill
+"InvokeFunctionalModule" AND "SCXMLSubmit" AND NOT ("EventAttachedDataChanged" OR "message") sourcetype="omni:ors*"
+| rex call\s(?<IXN>.*)
+| rex "\'\[\w+,\"(?<VQ>.*)\",\d+,\"Stat"
+| search VQ=VQ_OPT_OptumCare_CustSrvc_Email_Inbound
+| dedup IXN
+
+
+eventinteractionsubmitted ixn-chat
+
+
+00003aG8XVQA09CF AND "EventAgentInvited" AND  sourcetype=omni:email:interaction
+
+Virtual Queue is set to 02B5B81TUC87B5F2HOO5C2LAES05U8D1
+
+
+Assigned Agent SMS
+Async Agent evaluation for SMS: 0025H01URC87B4AHFQQ5E2LAES037UCN
+
+"'Request Chat' request received" AND "UHC_EI_Member" sourcetype="omni:gms" | reverse | stats count as total
+
+
+state_enter sid='008SQTI9SS9L74QN80C302LAES000IJQ' name=
+
+state_enter sid\=\'008SQTI9SS9L74QN80C302LAES000IIB\' name | reverse
+
+CAG 
+state_enter sid\=\'000M654VPG9BT20EBT9HO2LAES06MHHQ\' name\=\'EnteredFlow\.API\_GetRoutingInfo\.Subroutine\_CAG\.ECMARead\_CMResult
+
+Basic 
+00002aH6SEVP9Q9T AND ixn-chat* sourcetype="omni:ors*" | reverse
+
+email.default-queue
+
+"EventInteractionSubmitted" AND "cl2" sourcetype="omni:chat:interaction"
+
+Target Timeout Calc
+InvokeFunctionalModule AND SCXMLSubmit AND 00005aGPKKJ2PK15
+
+
+Platform Team Dashboard
+
+https://phi-splunk.optum.com/en-US/app/optum_gvp/digitalucs_problem_monitoring?form.field1.earliest=1634619600&form.field1.latest=1634642052.43&form.field2=NOT%20source%20IN(%22*%2Fcl2-*%22)
+
+Below are the dashboard URL
+
+https://phi-splunk.optum.com/en-US/app/optum_gvp/omni_digital_dashboard_v1?form.field2.earliest=-60m%40m&form.field2.latest=now&form.field1=NOT%20source%20IN(%22*%2Fcl2-*%22)
+
+https://phi-splunk.optum.com/en-US/app/optum_gvp/digitalucs_problem_monitoring?form.field1.earliest=-60m%40m&form.field1.latest=now&form.field2=NOT%20source%20IN(%22*%2Fcl2-*%22)
+
+collect all SIDs 
+sourcetype="omni:ors:digital" InteractionID=<Interaction ID> SessionID=* | table _time InteractionID SessionID source
+
+agents logged in
+sid="'<session id>'" "'#### Enterprise_Digital: Assign_HOOP_Classification" AND "LoggedIn for target" source=*ors*
+|rex "\*\*\*\* (?<agentcount>[^\s]+)"
+|rex "target(?<skillsexpress>[^\.]+)"
+|rex field=source "/logs/gcti/(?<src>[^/]+)"
+|table _time, src,agentcount, skillsexpress,sid
+
+SCXML log 
+"log sid='<session id>' expr=" sourcetype="omni:ors:digital" | reverse
+
+get the time take by SCXML block
+sourcetype="omni:ors:digital" sid="'<session id>'" name=* duration=*  | table _time sid name duration source | sort _time
+
+Display Unit Segment Function with Event taken from Queue Count
+index=cba_omni sourcetype="omni:ors:digital" EventTakenFromQueue
+| rex "attr_itx_id[\s]\\[str\\][\s]=[\s][\"]+(?<ixn_id>[^\"]+)"
+| rex "'ENT_Function'[\s]\\[str\\][\s]=[\s][\"]+(?<function>[^\"]+)"
+| rex "'ENT_Unit'[\s]\\[str\\][\s]=[\s][\"]+(?<unit>[^\"]+)"
+| rex "'ENT_Segment'[\s]\\[str\\][\s]=[\s][\"]+(?<segment>[^\"]+)"
+| rex "'ENT_MediaClassNm'[\s]\\[str\\][\s]=[\s][\"]+(?<Media>[^\"]+)"
+| stats count by unit, segment, function, Media
+| sort -count
+
+Looping in Queue Email
+"EventTakenFromQueue" AND "ixn-email*" AND "Enterprise_Digital.Email*" sourcetype="omni:ors:email"
+| rex attr_itx_queue\s\[\w+\]\s=\s(?<Queue>.*) | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | search IXN=\"0000AaGU8KSP00KS\"
+| stats count by IXN , Queue
+
+Table
+"EventPropertiesChanged" AND "attr_changed_prop" AND "RTargetsWaited" AND "ixn-email*" sourcetype="omni:ors:digital" 
+| rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) 
+| dedup IXN | rex 'Mailbox'\s\[\w+\]\s=\s(?<Mailbox>.*) 
+| search Mailbox=\"optumcare*\"
+| rex attr_itx_subtype\s\[\w+\]\s=\s(?<SubType>.*) 
+| rex 'ENT_State'\s\[\w+\]\s=\s(?<ENT_State>.*) 
+| rex 'RTargetsWaited'\s\[\w+\]\s=\s(?<RTargetsWaited>.*)
+| rex attr_itx_received_at\s\[\w+\]\s=\s(?<attr_itx_received_at>.*) 
+| table attr_itx_received_at , IXN , Mailbox , SubType , ENT_State , RTargetsWaited 
+| sort -attr_itx_received_at
+
+Auto Generated Email Count DB Query
+Select count(Id) FROM [ccs_ucs_main_prod_1].[dbo].[Interaction] where Subject like '_Auto-Reply%' AND StrAttribute2 = 'OptumCare' AND StrAttribute3 = 'Service' AND MediaTypeId = 'email' AND TypeId = 'Inbound'
+
+Submitted LOB Chat Count
+"EventInteractionSubmitted" AND "cl2" sourcetype="omni:ors:digital" AND "\'ENT_Segment\' \[str\] = \"PopulationHealthServices\""
+| rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN
+| rex 'ENT_Segment'\s\[\w+\]\s=\s(?<Seg>.*)
+| table IXN, Seg
+
+Abandoned IXN
+"EventProcessingStopped" AND "cl2" AND sourcetype="omni:ors:digital" AND "\'ENT_Function\' \[str\] = \"Specialty\"" 
+AND "attr_reason_system_name \[str\] = \"Abandoned\""
+| rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN
+| rex 'ENT_Function'\s\[\w+\]\s=\s(?<Seg>.*)
+| table IXN, Seg
+
+
+Stopped Email
+"EventProcessingStopped" AND NOT source="*cl2*" sourcetype="omni:ors:digital" | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | rex 'FromAddress'\s\[\w+\]\s=\s(?<FromAddress>.*) | search FromAddress=\"no-reply@rotech.com\"
+| rex 'Mailbox'\s\[\w+\]\s=\s(?<Mailbox>.*) | search Mailbox=\"optumcare-servicecenter_pnw@optum.com\"
+| timechart span=1d count
+
+
+"EventProcessingStopped received from" AND NOT source="*cl2*" sourcetype="omni:ors:digital"
+| rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN
+| rex 'Subject'\s\[\w+\]\s=\s(?<Subject>.*) |rex attr_reason_system_name\s\[\w+\]\s=\s(?<attr_reason_system_name>.*)
+| rex 'FromAddress'\s\[\w+\]\s=\s(?<FromAddress>.*) | search FromAddress=\"postmaster@medicmgmt.com\" | stats count by Subject , FromAddress , attr_reason_system_name
+
+
+Count of Subject TYPE
+"EventInteractionSubmitted received from" AND NOT source="*cl2*"  sourcetype="omni:ors*" | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | rex attr_itx_queue\s\[\w+\]\s=\s(?<Queue>.*) | search  Queue=\"*Email*\" | rex 'Mailbox'\s\[\w+\]\s=\s(?<Mailbox>.*) | search Mailbox=\"cccriverside@riversidemedgroup.com\" | rex attr_itx_subtype\s\[\w+\]\s=\s(?<SubType>.*) | stats count by  Mailbox, SubType  | sort -count
+
+Get auto response Email with Subject 
+"external_service_request\' sent to \'ixn-email" AND NOT source="*cl2*" sourcetype="omni:ors*" | rex 'Method'\s\[\w+\]\s=\s(?<Method>.*) | rex 'ENT_ChatIxnID'\s\[\w+\]\s=\s(?<IXN>.*) |rex 'CustomizedFrom'\s\[\w+\]\s=\s(?<From>.*) | search From=\"cccriverside@riversidemedgroup.com*\" AND Method=\"AutoResponse\" | rex 'CustomizedSubject'\s\[\w+\]\s=\s(?<Subject>.*) | rex 'AddedToList'\s\[\w+\]\s=\s(?<To>.*) | table _time ,IXN,From , Subject , To
+
+Email EventInteractionSubmitted  Riverside      
+EventInteractionSubmitted received from AND NOT source="*cl2*" sourcetype="omni:ors:email" | rex 'Mailbox'\s\[\w+\]\s=\s(?<To>.*) | rex  attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | search To=\"CCCRiverside@riversidemedgroup.com*\" | table _time, To, IXN
+
+EventInteractionSubmitted received from AND NOT source="*cl2*" sourcetype="omni:ors:email" | rex 'Origination_Source'\s\[\w+\]\s=\s(?<Source>.*) | rex 'Mailbox'\s\[\w+\]\s=\s(?<To>.*) | rex  attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | search To=\"CCCRiverside@riversidemedgroup.com*\" | table _time, To, IXN, Source
+
+EventInteractionSubmitted received from AND NOT source="*cl2*" sourcetype="omni:ors:email" | rex 'ENT_FromAddress'\s\[\w+\]\s=\s(?<From>.*) | rex 'Origination_Source'\s\[\w+\]\s=\s(?<Source>.*) | rex 'Mailbox'\s\[\w+\]\s=\s(?<To>.*) | rex  attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | search To=\"CCCRiverside@riversidemedgroup.com*\" | table _time, From,To, IXN, Source
+
+Count 
+EventInteractionSubmitted received from AND NOT source="*cl2*" sourcetype="omni:ors:email" | rex 'Origination_Source'\s\[\w+\]\s=\s(?<Source>.*) | rex 'Mailbox'\s\[\w+\]\s=\s(?<To>.*) | rex  attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | search To=\"CCCRiverside@riversidemedgroup.com*\" | stats count by  Source ,To | sort -count
+
+Email Subjectbased
+EventInteractionSubmitted received from AND sourcetype="omni:ors:email" AND source="*cl2*" | rex 'Subject'\s\[\w+\]\s=\s(?<Subject>.*) | rex  attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | rex  attr_itx_subtype\s\[\w+\]\s=\s(?<type>.*) | rex 'Mailbox'\s\[\w+\]\s=\s(?<To>.*) | dedup IXN | table _time,IXN,To , Subject, type
+
+Email Spike
+"EventInteractionSubmitted received from" AND source="*cl2*"  sourcetype="omni:ors:*" | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | rex attr_itx_queue\s\[\w+\]\s=\s(?<Queue>.*) | search  Queue=\"*Email*\" | timechart span=1h count
+
+"EventTakenFromQueue received from" AND Enterprise_Digital.Email.Email_HoldIXN source="*cl2*"  sourcetype="omni:ors:*" | rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | timechart span=1h count
+
+Stopped IXN Count
+"EventProcessingStopped received from" AND cl2-ixn-email* AND source="*cl2*"  sourcetype="omni:ors*" 
+| rex attr_itx_id\s\[\w+\]\s=\s(?<IXN>.*) | dedup IXN | rex attr_reason_system_name\s\[\w+\]\s=\s(?<attr_reason_system_name>.*) | rex 'Mailbox'\s\[\w+\]\s=\s(?<Mailbox>.*) | stats count by Mailbox , attr_reason_system_name
+
+
+Source Type
+ORS 
+sourcetype="omni:ors*"
+sourcetype="omni:ors:digital" 
+IXN 
+sourcetype="omni:proxy:interaction"
+Email IXN 
+sourcetype="omni:email:interaction"
+Email Server 
+sourcetype="omni:email"
+GMS 
+sourcetype="omni:gms"
+
+
+Servers not listed 
+cl2-ixnemail-ors-ELR_1a
+cl2-ors-digital-ELR_3   cl2-stg-rhel-elr-dig-ors3.uhc.com
