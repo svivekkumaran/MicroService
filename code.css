@@ -1,0 +1,400 @@
+/* Basic Reset & Body */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    display: flex; /* Use flex for layout */
+}
+
+#app {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    height: 100%;
+    overflow-y: auto; /* Scroll if content overflows */
+}
+
+.sidebar h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    padding: 0 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 12px 20px;
+    color: #eee;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+.sidebar ul li a.active {
+    background-color: #007bff;
+    font-weight: bold;
+}
+
+/* Main Content Area */
+.content {
+    flex-grow: 1; /* Take remaining space */
+    padding: 30px;
+    overflow-y: auto; /* Scroll if content overflows */
+    height: 100%;
+    background-color: #fff;
+}
+
+.content-section {
+    display: none; /* Hide sections by default */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-section.active {
+    display: block; /* Show active section */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin: 5px 2px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #bbb;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Spacing within forms */
+}
+/* Reduce width for some inputs if needed */
+input[type="number"]#billing-quantity {
+    width: 80px;
+}
+
+input[placeholder*="Search"] {
+    margin-bottom: 15px;
+}
+
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+td button {
+    margin-right: 5px;
+}
+
+/* Dashboard Specific */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 5px;
+    border-left: 5px solid #007bff;
+}
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #555;
+}
+
+.stat-card p {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.stat-card ul {
+    list-style: none;
+    padding-left: 5px;
+    font-size: 0.9em;
+    max-height: 100px;
+    overflow-y: auto;
+}
+.stat-card ul li {
+    margin-bottom: 3px;
+}
+.stock-alert {
+    color: #dc3545; /* Red for alerts */
+    font-weight: bold;
+}
+
+
+/* Billing Specific */
+.billing-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.billing-left {
+    flex: 1; /* Takes up half the space */
+}
+
+.billing-right {
+    flex: 1.5; /* Takes up slightly more space */
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#billing-search-results {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute; /* Example positioning */
+    width: calc(100% - 22px); /* Adjust width based on input padding/border */
+    z-index: 10;
+}
+#billing-search-results div {
+    padding: 8px;
+    cursor: pointer;
+}
+#billing-search-results div:hover {
+    background-color: #eee;
+}
+
+.billing-summary {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.1em;
+}
+.billing-summary p {
+    margin-bottom: 5px;
+}
+
+#cart-table td button {
+    padding: 3px 6px;
+    font-size: 0.8em;
+}
+
+
+/* Settings Specific */
+.settings-group {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+.settings-group h3 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #007bff;
+}
+#setting-category-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+#setting-category-list li {
+     margin-bottom: 5px;
+}
+
+/* Modals */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex; /* Show the modal */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* Max width */
+    border-radius: 8px;
+    position: relative;
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from { top: -100px; opacity: 0; }
+    to { top: 0; opacity: 1; }
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.modal form label {
+    font-weight: normal; /* Less bold labels in modal */
+}
+.modal form button[type="submit"] {
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #app {
+        flex-direction: column; /* Stack sidebar and content */
+    }
+    .sidebar {
+        width: 100%;
+        height: auto; /* Adjust height */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center items */
+    }
+    .sidebar ul {
+        display: flex; /* Horizontal links */
+        flex-wrap: wrap; /* Wrap links */
+        justify-content: center;
+    }
+    .sidebar ul li a {
+        padding: 10px 15px;
+    }
+    .content {
+        height: calc(100vh - height_of_sidebar); /* Adjust based on sidebar height */
+    }
+    .billing-layout {
+        flex-direction: column;
+    }
+    .modal-content {
+        width: 90%;
+    }
+    .dashboard-stats {
+        grid-template-columns: 1fr; /* Stack cards */
+    }
+}

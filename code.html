@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karthik Agency - Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <nav class="sidebar">
+            <h1>Karthik Agency</h1>
+            <ul>
+                <li><a href="#" class="nav-link active" data-target="dashboard-section">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-target="products-section">Products & Inventory</a></li>
+                <li><a href="#" class="nav-link" data-target="billing-section">Billing System</a></li>
+                <li><a href="#" class="nav-link" data-target="history-section">Sales History</a></li>
+                <li><a href="#" class="nav-link" data-target="customers-section">Customers</a></li>
+                <li><a href="#" class="nav-link" data-target="settings-section">Settings</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Today's Sales</h3>
+                        <p id="daily-sales">₹0.00</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue (Month)</h3>
+                        <p id="monthly-revenue">₹0.00</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Stock Alerts</h3>
+                        <ul id="stock-alerts-list">
+                            <li>No alerts</li>
+                            <!-- Alerts will be added here by JS -->
+                        </ul>
+                    </div>
+                     <div class="stat-card">
+                        <h3>Recent Transactions</h3>
+                        <ul id="recent-transactions-list">
+                            <li>No recent transactions</li>
+                            <!-- Transactions will be added here by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products & Inventory Section -->
+            <section id="products-section" class="content-section">
+                <h2>Products & Inventory</h2>
+                <button id="add-product-btn" class="btn">Add New Product</button>
+                <input type="text" id="product-search" placeholder="Search products by name or code...">
+                <table id="product-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price (₹)</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-list">
+                        <!-- Product rows will be added here by JS -->
+                        <tr><td colspan="6">Loading products...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Billing System Section -->
+            <section id="billing-section" class="content-section">
+                <h2>Billing System</h2>
+                <div class="billing-layout">
+                    <div class="billing-left">
+                        <h3>Add Items</h3>
+                        <div class="form-group">
+                             <label for="billing-customer-select">Customer:</label>
+                             <select id="billing-customer-select">
+                                <option value="walk-in">Walk-in Customer</option>
+                                <!-- Customer options added by JS -->
+                             </select>
+                             <button id="add-customer-quick-btn" class="btn btn-small">Add New</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-product-search">Search Product (Name/Code/Barcode):</label>
+                            <input type="text" id="billing-product-search" placeholder="Start typing...">
+                            <div id="billing-search-results"></div> <!-- Search results dropdown -->
+                        </div>
+                         <div class="form-group">
+                            <label for="billing-quantity">Quantity:</label>
+                            <input type="number" id="billing-quantity" value="1" min="1">
+                        </div>
+                        <button id="add-to-cart-btn" class="btn">Add to Cart</button>
+                    </div>
+                    <div class="billing-right">
+                        <h3>Current Bill (<span id="bill-invoice-num">INV-XXXX</span>)</h3>
+                        <table id="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-items">
+                                <!-- Cart items added by JS -->
+                                <tr><td colspan="5">Cart is empty</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="billing-summary">
+                            <p>Subtotal: <span id="cart-subtotal">₹0.00</span></p>
+                            <p>Tax (<span id="cart-tax-rate">0</span>%): <span id="cart-tax-amount">₹0.00</span></p>
+                            <p><strong>Grand Total:</strong> <strong id="cart-grand-total">₹0.00</strong></p>
+                        </div>
+                        <button id="generate-invoice-btn" class="btn btn-primary">Generate Invoice</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sales History Section -->
+            <section id="history-section" class="content-section">
+                <h2>Sales History</h2>
+                <div class="filter-bar">
+                    <label for="history-date-start">From:</label>
+                    <input type="date" id="history-date-start">
+                    <label for="history-date-end">To:</label>
+                    <input type="date" id="history-date-end">
+                    <button id="history-filter-btn" class="btn btn-small">Filter</button>
+                </div>
+                 <table id="sales-history-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Amount (₹)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-history-list">
+                        <!-- History rows will be added here by JS -->
+                         <tr><td colspan="5">Loading sales history...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+             <!-- Customers Section -->
+            <section id="customers-section" class="content-section">
+                <h2>Customer Management</h2>
+                 <button id="add-customer-btn" class="btn">Add New Customer</button>
+                 <input type="text" id="customer-search" placeholder="Search customers by name or phone...">
+                <table id="customer-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-list">
+                        <!-- Customer rows will be added here by JS -->
+                        <tr><td colspan="4">Loading customers...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <h2>Settings</h2>
+                <div class="settings-group">
+                    <h3>Shop Information</h3>
+                    <label for="setting-shop-name">Shop Name:</label>
+                    <input type="text" id="setting-shop-name" value="Karthik Agency">
+                    <label for="setting-shop-address">Address:</label>
+                    <textarea id="setting-shop-address"></textarea>
+                     <label for="setting-shop-gstin">GSTIN:</label>
+                    <input type="text" id="setting-shop-gstin">
+                     <label for="setting-shop-contact">Contact:</label>
+                    <input type="text" id="setting-shop-contact">
+                </div>
+                 <div class="settings-group">
+                    <h3>Tax Rates</h3>
+                     <label for="setting-tax-rate">Default Tax Rate (%):</label>
+                     <input type="number" id="setting-tax-rate" value="18" min="0" max="100">
+                     <!-- More complex tax setup could go here -->
+                 </div>
+                 <div class="settings-group">
+                     <h3>Product Categories</h3>
+                     <input type="text" id="setting-new-category" placeholder="New category name">
+                     <button id="setting-add-category-btn" class="btn btn-small">Add Category</button>
+                     <ul id="setting-category-list">
+                         <!-- Categories listed by JS -->
+                         <li>Cement</li>
+                         <li>Sand</li>
+                         <li>Bricks</li>
+                     </ul>
+                 </div>
+                 <div class="settings-group">
+                    <h3>Data Management</h3>
+                    <button id="backup-data-btn" class="btn">Backup Data (Simulated)</button>
+                    <button id="export-data-btn" class="btn">Export Data (Simulated)</button>
+                </div>
+                 <button id="save-settings-btn" class="btn btn-primary">Save Settings</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals (Hidden by default) -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Add New Product</h2>
+            <form id="add-product-form">
+                <label for="product-code">Product Code (Optional):</label>
+                <input type="text" id="product-code">
+
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" required>
+
+                <label for="product-category">Category:</label>
+                <select id="product-category" required>
+                     <option value="">Select Category</option>
+                    <!-- Categories added by JS -->
+                </select>
+
+                 <label for="product-unit">Unit:</label>
+                <input type="text" id="product-unit" placeholder="e.g., Bag, Ton, Nos" required>
+
+                <label for="product-price">Selling Price (₹):</label>
+                <input type="number" id="product-price" step="0.01" required>
+
+                <label for="product-stock">Initial Stock:</label>
+                <input type="number" id="product-stock" value="0" required>
+
+                 <label for="product-reorder-level">Reorder Level:</label>
+                <input type="number" id="product-reorder-level" value="10">
+
+                <button type="submit" class="btn">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+     <div id="add-customer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Add New Customer</h2>
+            <form id="add-customer-form">
+                 <label for="customer-name">Name:</label>
+                 <input type="text" id="customer-name" required>
+                 <label for="customer-phone">Phone:</label>
+                 <input type="tel" id="customer-phone" required>
+                 <label for="customer-address">Address (Optional):</label>
+                 <textarea id="customer-address"></textarea>
+                 <label for="customer-gstin">GSTIN (Optional):</label>
+                 <input type="text" id="customer-gstin">
+                 <button type="submit" class="btn">Add Customer</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="invoice-preview-modal" class="modal">
+        <div class="modal-content">
+             <span class="close-btn">&times;</span>
+             <h2>Invoice Preview (<span id="preview-invoice-num"></span>)</h2>
+             <div id="invoice-content">
+                 <!-- Invoice details will be populated here by JS -->
+                 <p><strong>Shop:</strong> <span id="preview-shop-name"></span></p>
+                 <p><strong>Date:</strong> <span id="preview-date"></span></p>
+                 <p><strong>Customer:</strong> <span id="preview-customer"></span></p>
+                 <hr>
+                 <table id="preview-items-table">
+                    <thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+                    <tbody id="preview-items-list"></tbody>
+                 </table>
+                 <hr>
+                 <p>Subtotal: <span id="preview-subtotal"></span></p>
+                 <p>Tax: <span id="preview-tax"></span></p>
+                 <p><strong>Total: <span id="preview-total"></span></strong></p>
+             </div>
+             <button id="print-invoice-btn" class="btn">Print (Simulated)</button>
+             <button id="share-pdf-btn" class="btn">Share as PDF (Simulated)</button>
+        </div>
+    </div>
+
+    <!-- Edit modals would be similar -->
+
+    <script src="script.js"></script>
+</body>
+</html>
